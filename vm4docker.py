@@ -24,7 +24,7 @@ class DockertouchListener(sublime_plugin.EventListener):
     def on_post_save(self, view):
         settings = view.settings()
         plugin_settings = sublime.load_settings('vm4docker.sublime-settings')
-        host, extensions, paths = (
+        host, extensions, paths, do_ssh_key_checking = (
             settings.get(
                 'host',
                 plugin_settings.get('host', 'docker')
@@ -37,12 +37,21 @@ class DockertouchListener(sublime_plugin.EventListener):
                 'watch_paths',
                 plugin_settings.get('watch_paths', [os.getenv("HOME")])
             ),
+            settings.get(
+                'do_ssh_key_checking',
+                plugin_settings.get('do_ssh_key_checking', False)
+            ),
         )
         fname = view.file_name()
         if not self.is_valid_fname(fname, paths, extensions):
             return
         if self.ssh_is_open():
-            subprocess.Popen(['ssh', host, 'touch', '-c', fname])
+            no_ssh_key_checking = '-oStrictHostKeyChecking=no'
+            if do_ssh_key_checking:
+                no_ssh_key_checking = ''
+            subprocess.Popen(
+                ['ssh', no_ssh_key_checking, host, 'touch', '-c', fname]
+            )
 
     def is_valid_fname(self, fname, paths, extensions):
         valid_path = False

@@ -1,5 +1,6 @@
 {
     "host": "docker",
     "file_extensions": [],
-    "_watch_paths": []
+    "_watch_paths": [],
+    "do_ssh_key_checking": false
 }
