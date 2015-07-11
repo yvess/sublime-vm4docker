@@ -21,7 +21,7 @@ def plugin_loaded():
 
 
 class DockertouchListener(sublime_plugin.EventListener):
-    def on_post_save(self, view):
+    def on_post_save_async(self, view):
         settings = view.settings()
         plugin_settings = sublime.load_settings('vm4docker.sublime-settings')
         host, extensions, paths, do_ssh_key_checking = (
@@ -49,7 +49,7 @@ class DockertouchListener(sublime_plugin.EventListener):
             no_ssh_key_checking = '-oStrictHostKeyChecking=no'
             if do_ssh_key_checking:
                 no_ssh_key_checking = ''
-            subprocess.Popen(
+            subprocess.check_call(
                 ['ssh', no_ssh_key_checking, host, 'touch', '-c', fname]
             )
 
