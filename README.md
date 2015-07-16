@@ -6,7 +6,7 @@ should also work with boot2docker.
 
 ## Requirements
 
-A host named `docker` should exits, or you can change it with the `host` settings.
+A host named `docker` should exists, or you can change it with the `host` settings.
 You should be able to ssh to your docker host under the current user.
 
 In your docker vm the `/Users` folder from you mac should be mounted
@@ -20,7 +20,7 @@ touch of the same file path you are editing in your mac.
 This is useful for auto reloading development setups in you docker vm, which
 listen on ionotify, for example flask oder django dev servers.
 
-## Setttings
+## Settings
 
 ```json
 {
